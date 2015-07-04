@@ -75,6 +75,11 @@ include(mongoose/mongoose.pri)
 include(linenoise/linenoise.pri)
 include(qcommandline/qcommandline.pri)
 
+INCLUDEPATH += \
+    qt/qtwebkit/Source \
+    qt/qtwebkit/Source/WTF \
+    qt/3rdparty/libicu/include
+
 linux*|mac|openbsd* {
     INCLUDEPATH += breakpad/src
 
