@@ -40,6 +40,13 @@
 #include <QMetaProperty>
 #include <QStandardPaths>
 
+#define BUILDING_QT__
+#include "WTF/wtf/ExportMacros.h"
+#include "WTF/wtf/Forward.h"
+#include "WTF/wtf/text/WTFString.h"
+#include "WTF/wtf/Vector.h"
+#include "WebCore/platform/Language.h"
+
 #include "consts.h"
 #include "terminal.h"
 #include "utils.h"
@@ -118,6 +125,12 @@ void Phantom::init()
     QString proxyType = m_config.proxyType();
     if (proxyType != "none") {
         setProxy(m_config.proxyHost(), m_config.proxyPort(), proxyType, m_config.proxyAuthUser(), m_config.proxyAuthPass());
+    }
+
+    if (!m_config.language().isEmpty()) {
+        Vector<String> langs;
+        langs.append(m_config.language());
+        WebCore::overrideUserPreferredLanguages(langs);
     }
 
     // Set output encoding
@@ -248,6 +261,11 @@ QString Phantom::libraryPath() const
 void Phantom::setLibraryPath(const QString &libraryPath)
 {
     m_page->setLibraryPath(libraryPath);
+}
+
+QString Phantom::language() const
+{
+    return WebCore::defaultLanguage();
 }
 
 QVariantMap Phantom::version() const
