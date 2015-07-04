@@ -84,6 +84,7 @@ static const struct QCommandLineConfigEntry flags[] = {
     { QCommandLine::Switch, 'w', "wd", "Equivalent to '--webdriver' option above", QCommandLine::Optional },
     { QCommandLine::Switch, 'h', "help", "Shows this message and quits", QCommandLine::Optional },
     { QCommandLine::Switch, 'v', "version", "Prints out PhantomJS version", QCommandLine::Optional },
+    { QCommandLine::Option, '\0', "language", "Sets the browser specific language instead of system language", QCommandLine::Optional },
     QCOMMANDLINE_CONFIG_ENTRY_END
 };
 
@@ -563,6 +564,20 @@ QString Config::webdriverSeleniumGridHub() const
     return m_webdriverSeleniumGridHub;
 }
 
+QString Config::language() const
+{
+    return m_language;
+}
+
+void Config::setLanguage(const QString& value)
+{
+    if (value.isEmpty()) {
+        return;
+    }
+
+    m_language = value;
+}
+
 // private:
 void Config::resetToDefaults()
 {
@@ -626,6 +641,7 @@ void Config::resetToDefaults()
     m_webdriverLogFile = QString();
     m_webdriverLogLevel = "INFO";
     m_webdriverSeleniumGridHub = QString();
+    m_language = "";
 }
 
 void Config::setProxyAuthPass(const QString& value)
@@ -816,6 +832,9 @@ void Config::handleOption(const QString& option, const QVariant& value)
     }
     if (option == "webdriver-selenium-grid-hub") {
         setWebdriverSeleniumGridHub(value.toString());
+    }
+    if (option == "language") {
+        setLanguage(value.toString());
     }
 }
 

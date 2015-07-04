@@ -55,6 +55,7 @@ class Phantom : public QObject
     Q_PROPERTY(bool cookiesEnabled READ areCookiesEnabled WRITE setCookiesEnabled)
     Q_PROPERTY(QVariantList cookies READ cookies WRITE setCookies)
     Q_PROPERTY(bool webdriverMode READ webdriverMode)
+    Q_PROPERTY(QString language READ language)
 
 private:
     // Private constructor: the Phantom class is a singleton
@@ -75,6 +76,8 @@ public:
 
     QString libraryPath() const;
     void setLibraryPath(const QString& libraryPath);
+
+    QString language() const;
 
     QVariantMap version() const;
 
