@@ -155,6 +155,8 @@ void Phantom::init()
     m_page->applySettings(m_defaultPageSettings);
 
     setLibraryPath(QFileInfo(m_config.scriptFile()).dir().absolutePath());
+
+    m_networkAccessManager = new NetworkAccessManager(this, config());
 }
 
 // public:
@@ -516,3 +518,21 @@ void Phantom::doExit(int code)
     m_page = 0;
     QApplication::instance()->exit(code);
 }
+
+QString Phantom::sendSyncGetRequest(const QString &url)
+{
+    QUrl url_(url);
+    QNetworkRequest req(url_);
+    QNetworkReply *reply = m_networkAccessManager->get(req);
+
+    QEventLoop eventLoop;
+    QObject::connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
+    eventLoop.exec();
+
+    if (reply->error() == QNetworkReply::NoError) {
+        QByteArray bytes = reply->readAll();
+        return QString(bytes);
+    }
+    return QString();
+}
+

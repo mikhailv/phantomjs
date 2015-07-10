@@ -39,6 +39,7 @@
 #include "system.h"
 #include "childprocess.h"
 #include "cookiejar.h"
+#include "networkaccessmanager.h"
 
 class WebPage;
 class CustomPage;
@@ -177,6 +178,8 @@ public slots:
     void exit(int code = 0);
     void debugExit(int code = 0);
 
+    QString sendSyncGetRequest(const QString &url);
+
 signals:
     void aboutToExit(int code);
 
@@ -201,6 +204,7 @@ private:
     QList<QPointer<WebServer> > m_servers;
     Config m_config;
     CookieJar *m_defaultCookieJar;
+    NetworkAccessManager *m_networkAccessManager;
 
     friend class CustomPage;
 };
