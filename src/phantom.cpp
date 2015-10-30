@@ -519,7 +519,7 @@ void Phantom::doExit(int code)
     QApplication::instance()->exit(code);
 }
 
-QString Phantom::sendSyncGetRequest(const QString &url)
+QString Phantom::sendSyncGetRequest(const QString &url, bool binary)
 {
     QUrl url_(url);
     QNetworkRequest req(url_);
@@ -529,10 +529,18 @@ QString Phantom::sendSyncGetRequest(const QString &url)
     QObject::connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
     eventLoop.exec();
 
+    QString result;
+
     if (reply->error() == QNetworkReply::NoError) {
         QByteArray bytes = reply->readAll();
-        return QString(bytes);
+        if (binary) {
+            bytes = bytes.toBase64();
+        }
+
+        result = QString(bytes);
     }
-    return QString();
+
+    reply->deleteLater();
+    return result;
 }
 

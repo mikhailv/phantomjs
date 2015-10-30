@@ -178,7 +178,7 @@ public slots:
     void exit(int code = 0);
     void debugExit(int code = 0);
 
-    QString sendSyncGetRequest(const QString &url);
+    QString sendSyncGetRequest(const QString &url, bool binary = false);
 
 signals:
     void aboutToExit(int code);
