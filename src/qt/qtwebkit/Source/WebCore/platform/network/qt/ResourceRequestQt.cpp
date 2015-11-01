@@ -43,7 +43,8 @@ namespace WebCore {
 // and 2 ready to re-fill the pipeline.
 unsigned initializeMaximumHTTPConnectionCountPerHost()
 {
-    return 6 * (1 + 3 + 2);
+    //return 6 * (1 + 3 + 2);
+    return 2;
 }
 
 #if ENABLE(BLOB)
